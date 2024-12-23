@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="style.css" />
+        <script src="https://unpkg.com/vue@3"></script>
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="app">
+            <div class="square">
+                <p class="title colorWhite">{{level}}</p>
+                <div class="table">
+                    <p class="titles month colorWhite">{{month}}</p>
+                    <p class="titles name colorWhite">Название</p>
+                    <p class="titles price colorWhite">Цена</p>
+
+                    <div v-for="(row, index) in tableData" :key="index" class="row">
+                        <p class="content date colorWhite">{{ row.date }}</p>
+                        <p class="content dayofweek colorWhite">{{ row.dayOfWeek }}</p>
+                        <p class="hikename colorWhite">{{ row.name }}</p>
+                        <p class="content hikeprice colorWhite">{{ row.price }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="story">
+                <p class="title colorWhite" style="padding-top: 70px">{{level}}</p>
+                <div class="table">
+                    <p class="titles month colorWhite">{{month}}</p>
+                    <p class="titles name colorWhite">Название</p>
+                    <p class="titles price colorWhite">Цена</p>
+
+                    <div v-for="(row, index) in tableData" :key="index" class="row">
+                        <p class="content date colorWhite">{{ row.date }}</p>
+                        <p class="content dayofweek colorWhite">{{ row.dayOfWeek }}</p>
+                        <p class="hikename colorWhite">{{ row.name }}</p>
+                        <p class="content hikeprice colorWhite">{{ row.price }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="forms">
+                <div class="level-selection">
+                    <label for="levelSelect">Выберите уровень:</label>
+                    <select id="levelSelect" v-model="selectedLevel">
+                        <option value="Уровень — легкий">Легкий</option>
+                        <option value="Уровень — средний">Средний</option>
+                        <option value="Уровень — сложный">Сложный</option>
+                        <option value="Скалолазание">Скалолазание</option>
+                        <option value="Многодневные походы">Многодневные походы</option>
+                    </select>
+                </div>
+                <form @submit.prevent="addTableRow">
+                    <label>Расписание</label>
+                    <input type="text" v-model="formData.date" />
+                    <label for="">Цена</label>
+                    <input style="margin-bottom: 15px" type="text" v-model="formData.price" />
+
+                    <input type="submit" value="Отправить" />
+                </form>
+
+                <p></p>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
