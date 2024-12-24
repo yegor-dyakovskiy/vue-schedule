@@ -5,12 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="style.css" />
         <script src="https://unpkg.com/vue@3"></script>
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+        <script type="module" src="script.js"></script>
         <title>Document</title>
     </head>
     <body>
         <div id="app">
-            <div class="square">
-                <p class="title colorWhite">{{level}}</p>
+            <div class="square" id="element-to-capture-square">
+                <p class="title colorWhite">{{selectedLevel}}</p>
                 <div class="table">
                     <p class="titles month colorWhite">{{month}}</p>
                     <p class="titles name colorWhite">Название</p>
@@ -24,8 +26,9 @@
                     </div>
                 </div>
             </div>
-            <div class="story">
-                <p class="title colorWhite" style="padding-top: 70px">{{level}}</p>
+
+            <div class="story" id="element-to-capture-story">
+                <p class="title colorWhite" style="padding-top: 70px">{{selectedLevel}}</p>
                 <div class="table">
                     <p class="titles month colorWhite">{{month}}</p>
                     <p class="titles name colorWhite">Название</p>
@@ -39,6 +42,13 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Кнопки для захвата элементов -->
+            <button @click="captureAsImage('square')" class="capture-btn-1">
+                Сохранить квадрат
+            </button>
+            <button @click="captureAsImage('story')" class="capture-btn-2">Сохранить сторис</button>
+
             <div class="forms">
                 <div class="level-selection">
                     <label for="levelSelect">Выберите уровень:</label>
@@ -50,18 +60,29 @@
                         <option value="Многодневные походы">Многодневные походы</option>
                     </select>
                 </div>
-                <form @submit.prevent="addTableRow">
-                    <label>Расписание</label>
-                    <input type="text" v-model="formData.date" />
-                    <label for="">Цена</label>
-                    <input style="margin-bottom: 15px" type="text" v-model="formData.price" />
+                <form @submit.prevent="handleFormSubmit">
+                    <label for="inputText">Расписание:</label>
+                    <textarea
+                        id="inputText"
+                        v-model="formData.inputText"
+                        rows="20"
+                        placeholder="Введите расписание"
+                    ></textarea>
+
+                    <label for="price">Цена:</label>
+                    <input
+                        id="price"
+                        type="text"
+                        v-model="formData.price"
+                        placeholder="Введите цену"
+                    />
 
                     <input type="submit" value="Отправить" />
                 </form>
 
-                <p></p>
+                <button @click="firtsFetch" class="fetch">FETCH</button>
             </div>
         </div>
-        <script src="script.js"></script>
+        <div class="png"></div>
     </body>
 </html>

@@ -1,0 +1,617 @@
+<style>
+    p {
+        margin: 0;
+    }
+    .title-square {
+        font-weight: bold;
+        margin-bottom: 15px;
+        font-size: 12pt;
+        font-family: Montserrat;
+    }
+    .content {
+        font-size: 12pt;
+        font-family: Montserrat;
+        font-weight: 400;
+    }
+    .hikename {
+        font-size: 12pt;
+        font-family: Montserrat;
+        font-weight: 400;
+    }
+    .square {
+        width: 100%;
+        margin-bottom: 40px;
+    }
+    .table .hikename {
+        padding-left: 5px;
+    }
+    .row {
+        display: grid;
+        margin-bottom: 15px;
+        grid-template-columns: 30px 50px 1fr 60px;
+        padding: 0px 10px 0px 10px;
+    }
+    .row:nth-child(odd) {
+        background: rgba(87, 173, 104, 0.3);
+        display: grid;
+        margin-bottom: 15px;
+        grid-template-columns: 30px 50px 1fr 60px;
+        padding: 15px 10px 15px 10px;
+    }
+    @media screen and (max-width: 900px) {
+        .row {
+            grid-template-columns: 30px 30px 1fr 60px;
+        }
+        .row:nth-child(odd) {
+            grid-template-columns: 30px 30px 1fr 60px;
+        }
+    }
+</style>
+<div id="app">
+    <p class="title-square">Декабрь 2024</p>
+    <div class="square" v-if="filteredTableDataEasy.length">
+        <p class="title-square">Уровень — Легкий</p>
+        <div class="table">
+            <div v-for="(row, index) in filteredTableDataEasy" :key="index" class="row">
+                <p class="content date colorWhite">{{ row.date }}</p>
+                <p class="content dayofweek colorWhite">{{ row.dayOfWeek }}</p>
+                <p class="hikename colorWhite">{{ row.name }}</p>
+                <p class="content hikeprice colorWhite">{{ row.price }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="square" v-if="filteredTableDataMedium.length">
+        <p class="title-square">Уровень — Средний</p>
+        <div class="table">
+            <div v-for="(row, index) in filteredTableDataMedium" :key="index" class="row">
+                <p class="content date colorWhite">{{ row.date }}</p>
+                <p class="content dayofweek colorWhite">{{ row.dayOfWeek }}</p>
+                <p class="hikename colorWhite">{{ row.name }}</p>
+                <p class="content hikeprice colorWhite">{{ row.price }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="square" v-if="filteredTableDataHard.length">
+        <p class="title-square">Уровень — Сложный</p>
+        <div class="table">
+            <div v-for="(row, index) in filteredTableDataHard" :key="index" class="row">
+                <p class="content date colorWhite">{{ row.date }}</p>
+                <p class="content dayofweek colorWhite">{{ row.dayOfWeek }}</p>
+                <p class="hikename colorWhite">{{ row.name }}</p>
+                <p class="content hikeprice colorWhite">{{ row.price }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="square" v-if="filteredTableDataSpace.length">
+        <p class="title-square">Восхождения с ночевкой</p>
+        <div class="table">
+            <div v-for="(row, index) in filteredTableDataSpace" :key="index" class="row">
+                <p class="content date colorWhite">{{ row.date }}</p>
+                <p class="content dayofweek colorWhite">{{ row.dayOfWeek }}</p>
+                <p class="hikename colorWhite">{{ row.name }}</p>
+                <p class="content hikeprice colorWhite">{{ row.price }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="square" v-if="filteredTableDataClimbing.length">
+        <p class="title-square">Скалолазание</p>
+        <div class="table">
+            <div v-for="(row, index) in filteredTableDataClimbing" :key="index" class="row">
+                <p class="content date colorWhite">{{ row.date }}</p>
+                <p class="content dayofweek colorWhite">{{ row.dayOfWeek }}</p>
+                <p class="hikename colorWhite">{{ row.name }}</p>
+                <p class="content hikeprice colorWhite">{{ row.price }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="square"></div>
+</div>
+<script src="https://unpkg.com/vue@3"></script>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                tableDataEasy: [
+                    {
+                        date: '2',
+                        dayOfWeek: 'ЧТ',
+                        name: 'Ким-Асар Алтыбакан',
+                        price: '6000',
+                    },
+                    { date: '3', dayOfWeek: 'ПТ', name: 'Гора Слониха', price: '6000' },
+                    {
+                        date: '4',
+                        dayOfWeek: 'СБ',
+                        name: 'Японская дорога',
+                        price: '6000',
+                    },
+                    { date: '7', dayOfWeek: 'ВТ', name: 'Гора Серкебай', price: '6000' },
+                    {
+                        date: '11',
+                        dayOfWeek: 'СБ',
+                        name: 'Алтыбакан Кимасар',
+                        price: '6000',
+                    },
+                    { date: '13', dayOfWeek: 'ПН', name: 'Гора Серкебай', price: '6000' },
+                    { date: '18', dayOfWeek: 'СБ', name: 'Девичьи Слёзы', price: '6000' },
+                    { date: '19', dayOfWeek: 'ВС', name: 'Гора Слониха', price: '6000' },
+                    { date: '25', dayOfWeek: 'СБ', name: 'Гора Серкебай', price: '6000' },
+                ],
+                tableDataMedium: [
+                    {
+                        date: '3',
+                        dayOfWeek: 'ПТ',
+                        name: 'Водопады Горельника',
+                        price: '8000',
+                    },
+                    {
+                        date: '4',
+                        dayOfWeek: 'СБ',
+                        name: 'Ледник Богдановича',
+                        price: '15000',
+                    },
+                    {
+                        date: '7',
+                        dayOfWeek: 'ВТ',
+                        name: 'Бутаковский водопад',
+                        price: '8000',
+                    },
+                    {
+                        date: '8',
+                        dayOfWeek: 'СР',
+                        name: 'Ледник Богдановича',
+                        price: '15000',
+                    },
+                    {
+                        date: '10',
+                        dayOfWeek: 'ПТ',
+                        name: 'Ледник Богдановича ',
+                        price: '15000',
+                    },
+                    {
+                        date: '11',
+                        dayOfWeek: 'СБ',
+                        name: 'Водопад Горельника',
+                        price: '8000',
+                    },
+                    { date: '11', dayOfWeek: 'СБ', name: 'Волчья гора', price: '8000' },
+                    {
+                        date: '12',
+                        dayOfWeek: 'ВС',
+                        name: 'Ледник Богдановича ',
+                        price: '15000',
+                    },
+                    {
+                        date: '15',
+                        dayOfWeek: 'СР',
+                        name: 'Ледник Богдановича',
+                        price: '15000',
+                    },
+                    {
+                        date: '18',
+                        dayOfWeek: 'СБ',
+                        name: 'Ледник Богдановича',
+                        price: '15000',
+                    },
+                    { date: '18', dayOfWeek: 'СБ', name: 'Качели', price: '8000' },
+                    {
+                        date: '19',
+                        dayOfWeek: 'ВС',
+                        name: 'Гора Куйгентау',
+                        price: '8000',
+                    },
+                    {
+                        date: '20',
+                        dayOfWeek: 'ПН',
+                        name: 'Ледник Богдановича',
+                        price: '15000',
+                    },
+                    {
+                        date: '23',
+                        dayOfWeek: 'ЧТ',
+                        name: 'Ледник Богдановича',
+                        price: '15000',
+                    },
+                    {
+                        date: '25',
+                        dayOfWeek: 'СБ',
+                        name: 'Бутаковский водопад',
+                        price: '8000',
+                    },
+                    {
+                        date: '25',
+                        dayOfWeek: 'СБ',
+                        name: 'Кольцо Ким Асара',
+                        price: '8000',
+                    },
+                    {
+                        date: '26',
+                        dayOfWeek: 'ВС',
+                        name: 'Ледник Богдановича',
+                        price: '15000',
+                    },
+                ],
+                tableDataHard: [
+                    { date: '5', dayOfWeek: 'ВС', name: 'Грот Туюк-Су', price: '10000' },
+                    {
+                        date: '7',
+                        dayOfWeek: 'ВТ',
+                        name: 'Богдановича + Чимбулачка',
+                        price: '18000',
+                    },
+                    { date: '11', dayOfWeek: 'СБ', name: 'Гора Кумбель', price: '10000' },
+                    { date: '12', dayOfWeek: 'ВС', name: 'Станция Т1', price: '10000' },
+                    { date: '17', dayOfWeek: 'ПТ', name: 'Грот Туюк-Су', price: '10000' },
+                    {
+                        date: '18',
+                        dayOfWeek: 'СБ',
+                        name: 'Гора Смотровая',
+                        price: '10000',
+                    },
+                    { date: '19', dayOfWeek: 'ВС', name: 'Грот Туюк-Су', price: '10000' },
+                    { date: '25', dayOfWeek: 'СБ', name: 'Грот Туюк-Су', price: '10000' },
+                    { date: '26', dayOfWeek: 'ВС', name: 'Пик Букреева', price: '10000' },
+                ],
+                tableDataSpace: [],
+                tableDataClimbing: [],
+                currentDate: new Date().getDate(), // текущий день месяца
+            };
+        },
+        computed: {
+            filteredTableDataEasy() {
+                return this.filterData(this.tableDataEasy);
+            },
+            filteredTableDataMedium() {
+                return this.filterData(this.tableDataMedium);
+            },
+            filteredTableDataHard() {
+                return this.filterData(this.tableDataHard);
+            },
+            filteredTableDataSpace() {
+                return this.filterData(this.tableDataSpace);
+            },
+            filteredTableDataClimbing() {
+                return this.filterData(this.tableDataClimbing);
+            },
+        },
+        methods: {
+            filterData(data) {
+                // Фильтруем все записи, которые идут после текущей даты
+                const filtered = data.filter((row) => row.date >= this.currentDate);
+                console.log('Filtered Data:', filtered);
+                return filtered;
+            },
+        },
+    });
+    app.mount('#app');
+</script>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+    p {
+        margin: 0;
+    }
+    .container-new {
+        width: 100%;
+        display: flex;
+        margin-bottom: 70px;
+    }
+    .title {
+        font-family: Montserrat;
+        font-weight: 600;
+        margin-top: 20px;
+    }
+    .text {
+        font-family: Montserrat;
+        font-size: 20px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .contact-box {
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
+        background: rgba(87, 173, 104, 0.3);
+        border-radius: 10px;
+        padding: 30px;
+    }
+    .box-name-icon {
+        display: flex;
+        flex-direction: column;
+        width: 45%;
+        align-items: center;
+        height: 100%;
+    }
+    .info-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        width: 45%;
+        padding-top: 25px;
+        gap: 25px;
+    }
+    .yegor-icon {
+        width: 120px;
+        height: 120px;
+        background-image: url('https://gorny-club.kz/wp-content/uploads/2024/01/DSC_1047-scaled.jpg');
+        background-size: cover;
+        background-position: center -15px;
+        background-repeat: no-repeat;
+        border-radius: 100px;
+    }
+    .phone {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+    }
+    .number {
+        font-family: Montserrat;
+        text-decoration: none;
+        color: #000;
+        font-size: 16px;
+    }
+    .social--new {
+        display: flex;
+        gap: 25px;
+        justify-content: center;
+    }
+    .icon {
+        width: 35px;
+        height: 35px;
+    }
+    .button-hover {
+        text-decoration: none;
+        width: 48%;
+        text-align: center;
+        line-height: 1.5;
+        transition: 0.5s all;
+        padding: 25px 30px 25px 30px;
+        border-radius: 10px;
+        background: rgba(87, 173, 104, 1);
+        font-family: Montserrat;
+        font-size: 12pt;
+        font-weight: 400;
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        justify-content: center;
+        font-weight: 500;
+    }
+    .button-hover:hover {
+        cursor: pointer;
+        transform: translateY(-3px);
+        transition: 0.5s all;
+        background: #378647;
+        color: white;
+    }
+    .center-div-contacts {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    @media screen and (max-width: 500px) {
+        .box-name-icon,
+        .button-hover {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .contact-box {
+            flex-direction: column;
+            align-items: center;
+        }
+        .info-box {
+            align-items: center;
+            width: 100%;
+            padding-bottom: 30px;
+        }
+        .phone {
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+        .social--new {
+            width: 100%;
+            justify-content: center;
+        }
+        .button-box {
+            flex-wrap: wrap;
+        }
+    }
+</style>
+<p
+    style="
+        font-size: 16px;
+        margin-top: 30px;
+        font-weight: 700;
+        font-family: Montserrat;
+        margin-bottom: 20px;
+    "
+>
+    Описание и скидки на услуги гида:
+</p>
+<ul style="padding-left: 10px">
+    <li
+        style="
+            font-size: 16px;
+            font-weight: 400;
+            font-family: Montserrat;
+            margin-bottom: 10px;
+            font-size: 16px;
+        "
+    >
+        Походы легкого уровня подходят для новичков и семей с детьми от 7 лет (для детей 7-11 лет —
+        участие бесплатное)
+    </li>
+    <li
+        style="
+            font-size: 16px;
+            font-weight: 400;
+            font-family: Montserrat;
+            margin-bottom: 10px;
+            font-size: 16px;
+        "
+        class="raspisanie-text"
+    >
+        Походы среднего уровня подходят для любителей активного отдыха (для подростков 12-16 лет —
+        скидка 50 %)
+    </li>
+    <li
+        style="
+            font-size: 16px;
+            font-weight: 400;
+            font-family: Montserrat;
+            margin-bottom: 10px;
+            font-size: 16px;
+        "
+        class="raspisanie-text"
+    >
+        Походы сложного уровня подходят для любителей активного отдыха с хорошей физической формой и
+        с опытом походов предыдущей сложности
+    </li>
+    <li
+        style="
+            font-size: 16px;
+            font-weight: 400;
+            font-family: Montserrat;
+            margin-bottom: 30px;
+            font-size: 16px;
+        "
+        class="raspisanie-text"
+    >
+        Пенсионерам — скидка 50%
+    </li>
+</ul>
+<p style="font-size: 16px; font-weight: 700; font-family: Montserrat; margin-bottom: 20px">
+    Как одеваться и что брать с собой:
+</p>
+<div class="button-box" style="display: flex; gap: 15px; margin-bottom: 25px">
+    <a
+        style="text-decoration: none"
+        class="button-hover"
+        href="https://gorny-club.kz/faq/kak-odevatsya-chto-brat-s-soboj/"
+        >Однодневные походы</a
+    >
+    <a
+        style="text-decoration: none"
+        class="button-hover"
+        href="https://gorny-club.kz/faq/kak-odevatsya-chto-brat-s-soboj-v-pohod-s-nochevkoj/"
+        >Многодневные походы</a
+    >
+</div>
+<div class="container-new">
+    <div class="contact-box">
+        <div class="box-name-icon">
+            <div class="yegor-icon"></div>
+            <p style="font-size: 16px; font-weight: 600" class="title">Егор</p>
+        </div>
+        <div class="info-box">
+            <a
+                style="
+                    display: flex;
+                    align-items: center;
+                    text-decoration: none;
+                    justify-content: center;
+                "
+                class="phone"
+                href="tel:+77752718368"
+            >
+                <svg
+                    style="margin-right: 10px"
+                    class="icon"
+                    fill="none"
+                    height="512"
+                    viewBox="0 0 24 24"
+                    width="512"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <g id="Communication / Phone">
+                        <path
+                            id="Vector (Stroke)"
+                            clip-rule="evenodd"
+                            d="m4.89474 4c-.49429 0-.89474.40052-.89474.89453 0 8.34237 6.7631 15.10547 15.1055 15.10547.4939 0 .8945-.4005.8945-.8948l.0005-2.7512c0-.0001 0 0 0 0-.0001-.4089-.2489-.7765-.6284-.9283 0-.0001 0 0 0 0l-2.6364-1.0542c-.3413-.1365-.7296-.0751-1.0116.1599l-.6801.5672c-1.1917.9931-2.9455.9147-4.0429-.1827l-1.91598-1.9177c-.00011-.0001.0001.0001 0 0-1.09615-1.0965-1.17825-2.8491-.1844-4.0417l.56739-.68039c.00007-.00008-.00008.00009 0 0 .23552-.28282.29712-.67152.16108-1.01163l-1.0551-2.63561c-.15187-.37966-.51968-.62887-.92858-.62887zm-2.89474.89453c0-1.59886 1.29616-2.89453 2.89474-2.89453h2.75077c1.22671 0 2.32984.74685 2.78539 1.88583l1.0551 2.63561c.4096 1.02392.2234 2.18921-.4815 3.03504l-.5673.68042c-.3305.3965-.3043.9806.0621 1.3471l1.916 1.9177c.3655.3651.9506.392 1.348.0608l.6801-.5673c.8467-.7055 2.012-.8899 3.0348-.4808l2.6364 1.0542c1.1391.4556 1.8859 1.5587 1.8859 2.7854l-.0005 2.7512c-.0001 1.5984-1.2957 2.8948-2.8945 2.8948-9.44701 0-17.1055-7.6585-17.1055-17.10547z"
+                            fill="rgb(0,0,0)"
+                            fill-rule="evenodd"
+                        ></path>
+                    </g>
+                </svg>
+                <p class="number">8 775 271 83 68</p>
+            </a>
+            <div class="social--new">
+                <a class="icon" href="https://t.me/gornyclub ">
+                    <svg
+                        class="icon"
+                        version="1.1"
+                        id="Capa_1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        x="0px"
+                        y="0px"
+                        viewBox="0 0 189.473 189.473"
+                        style="enable-background: new 0 0 189.473 189.473"
+                        xml:space="preserve"
+                    >
+                        <g>
+                            <path
+                                d="M152.531,179.476c-1.48,0-2.95-0.438-4.211-1.293l-47.641-32.316l-25.552,18.386c-2.004,1.441-4.587,1.804-6.914,0.972 c-2.324-0.834-4.089-2.759-4.719-5.146l-12.83-48.622L4.821,93.928c-2.886-1.104-4.8-3.865-4.821-6.955 c-0.021-3.09,1.855-5.877,4.727-7.02l174.312-69.36c0.791-0.336,1.628-0.53,2.472-0.582c0.302-0.018,0.605-0.018,0.906-0.001 c1.748,0.104,3.465,0.816,4.805,2.13c0.139,0.136,0.271,0.275,0.396,0.42c1.11,1.268,1.72,2.814,1.835,4.389 c0.028,0.396,0.026,0.797-0.009,1.198c-0.024,0.286-0.065,0.571-0.123,0.854L159.898,173.38c-0.473,2.48-2.161,4.556-4.493,5.523 C154.48,179.287,153.503,179.476,152.531,179.476z M104.862,130.579l42.437,28.785L170.193,39.24l-82.687,79.566l17.156,11.638 C104.731,130.487,104.797,130.533,104.862,130.579z M69.535,124.178l5.682,21.53l12.242-8.809l-16.03-10.874 C70.684,125.521,70.046,124.893,69.535,124.178z M28.136,86.782l31.478,12.035c2.255,0.862,3.957,2.758,4.573,5.092l3.992,15.129 c0.183-1.745,0.974-3.387,2.259-4.624L149.227,38.6L28.136,86.782z"
+                            ></path>
+                        </g>
+                    </svg>
+                </a>
+                <a class="icon" href=" https://wa.me/7752718368">
+                    <svg
+                        class="icon"
+                        clip-rule="evenodd"
+                        fill-rule="evenodd"
+                        height="512"
+                        image-rendering="optimizeQuality"
+                        shape-rendering="geometricPrecision"
+                        text-rendering="geometricPrecision"
+                        viewBox="0 0 512 512"
+                        width="512"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xodm="http://www.corel.com/coreldraw/odm/2003"
+                    >
+                        <g id="Layer_x0020_1">
+                            <path
+                                d="m317.12 285.93c-9.69 3.96-15.88 19.13-22.16 26.88-3.22 3.97-7.06 4.59-12.01 2.6-36.37-14.49-64.25-38.76-84.32-72.23-3.4-5.19-2.79-9.29 1.31-14.11 6.06-7.14 13.68-15.25 15.32-24.87 3.64-21.28-24.18-87.29-60.92-57.38-105.72 86.15 176.36 314.64 227.27 191.06 14.4-35.03-48.43-58.53-64.49-51.95zm-61.12 181.35c-37.39 0-74.18-9.94-106.39-28.76-5.17-3.03-11.42-3.83-17.2-2.26l-69.99 19.21 24.38-53.71c3.32-7.31 2.47-15.82-2.22-22.32-26.08-36.15-39.87-78.83-39.87-123.44 0-116.51 94.78-211.29 211.29-211.29s211.28 94.78 211.28 211.29c0 116.5-94.78 211.28-211.28 211.28zm0-467.28c-141.16 0-256 114.84-256 256 0 49.66 14.1 97.35 40.89 138.74l-38.89 85.65c-3.59 7.91-2.28 17.17 3.34 23.76 4.32 5.05 10.57 7.85 17.02 7.85 14.42 0 93.05-24.71 113.06-30.2 36.99 19.79 78.48 30.2 120.58 30.2 141.15 0 256-114.85 256-256 0-141.16-114.85-256-256-256z"
+                            ></path>
+                        </g>
+                    </svg>
+                </a>
+                <a class="icon" href="https://www.instagram.com/gorny_club_almaty/">
+                    <svg
+                        class="icon"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        x="0px"
+                        y="0px"
+                        viewBox="0 0 409.61 409.61"
+                        style="enable-background: new 0 0 409.61 409.61"
+                        xml:space="preserve"
+                    >
+                        <g>
+                            <g>
+                                <path
+                                    d="M307.205,0h-204.8C46.09,0,0.005,46.085,0.005,102.4v204.81c0,56.3,46.085,102.4,102.4,102.4h204.8 c56.315,0,102.4-46.1,102.4-102.4V102.4C409.605,46.085,363.52,0,307.205,0z M375.47,307.21c0,37.632-30.612,68.265-68.265,68.265 h-204.8c-37.637,0-68.265-30.633-68.265-68.265V102.4c0-37.642,30.628-68.265,68.265-68.265h204.8 c37.653,0,68.265,30.623,68.265,68.265V307.21z"
+                                ></path>
+                            </g>
+                        </g>
+                        <g>
+                            <g><circle cx="315.755" cy="93.865" r="25.6"></circle></g>
+                        </g>
+                        <g>
+                            <g>
+                                <path
+                                    d="M204.805,102.4c-56.566,0-102.4,45.839-102.4,102.4c0,56.54,45.834,102.41,102.4,102.41c56.55,0,102.4-45.87,102.4-102.41 C307.205,148.239,261.355,102.4,204.805,102.4z M204.805,273.075c-37.699,0-68.265-30.566-68.265-68.275 s30.566-68.265,68.265-68.265s68.265,30.556,68.265,68.265S242.504,273.075,204.805,273.075z"
+                                ></path>
+                            </g>
+                        </g>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
